@@ -1,0 +1,16 @@
+{
+  "LOG": {
+    "console": true,
+    "level": "DEBUG",
+    "path": "/Users/pleuvoir/dev/space/git/leopard-proxy/logs",
+    "name": "leopard-proxy.log",
+    "clear": true,
+    "backup_count": 5
+  },
+  "RABBITMQ": {
+    "host": "127.0.0.1",
+    "port": 5672,
+    "username": "guest",
+    "password": "guest"
+  }
+}
