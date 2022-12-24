@@ -20,3 +20,14 @@ async def do_them():
 ```
 
 这种await必须在异步函数中执行，即async的def方法
+
+
+## 引入grpc
+
+https://www.cnblogs.com/guyouyin123/p/16133065.html
+
+生成的文件需要改动导入包的路径
+import agent_pb2 as agent__pb2
+from rpc.proto import agent_pb2 as agent__pb2
+
+from 从哪个包 import 文件名称
