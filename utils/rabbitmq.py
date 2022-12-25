@@ -63,3 +63,7 @@ class MQCenter:
         await self._channel.queue_declare(queue_name=queue_name, auto_delete=True)
         await self._channel.queue_bind(queue_name=queue_name, exchange_name=exchange_name,
                                        routing_key=routing_key)
+
+
+
+mqCenter = MQCenter()

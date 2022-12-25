@@ -6,7 +6,7 @@ from cryptofeed.exchanges import OKX
 from cryptofeed.defines import TRADES, TICKER, CANDLES
 
 from utils.decorator import async_method_locker
-from utils.tasks import SingleTask
+from utils.tasks import AsyncTask
 
 
 async def ticker(t, receipt_timestamp):
@@ -44,7 +44,7 @@ def main():
     # f.add_feed(OKX(symbols=['BTC-USDT'], channels=[CANDLES],
     #                callbacks={TICKER: ticker, TRADES: trade, CANDLES: candles}))
 
-    SingleTask.run(func= test)
+    AsyncTask.run(func= test)
 
     # loop = asyncio.get_event_loop()
     # task = loop.create_task(test)

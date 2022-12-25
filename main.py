@@ -1,36 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from concurrent import futures
+import asyncio
+import os
 
 import grpc
 
-from proxy import Proxy
-from rpc.agent import Agent
-
-from rpc.proto import agent_pb2_grpc as agent_grpc
-
-
-def start_grpc() -> None:
-    # 1.实例化server
-    thread = futures.ThreadPoolExecutor(max_workers=10)
-    server = grpc.server(thread)
-    # 2.注册实现类到server中
-    agent_grpc.add_AgentServicer_to_server(Agent(), server)
-    # 3.启动server
-    server.add_insecure_port("127.0.0.1:8888")
-    server.start()
-    server.wait_for_termination()
+from config.config import config
+from mq.rabbitmq import mqCenter
+from rpc import grpc
+from utils import logger
+from utils.tasks import AsyncTask
 
 
-def start_market() -> None:
-    proxy = Proxy()
-    proxy.start("/Users/pleuvoir/dev/space/git/leopard-proxy/config/config.json")
-    # proxy.subscribe_market("okx", "BTC-USDT")
-    # proxy.mq_center.send("CANDLES", "routing_key", "i am message")
+def run(config_path: str):
+    # 加载配置文件
+    config.loads(config_path)
+    # 初始化日志
+    logger.initLogger(**config.log)
+    # 连接MQ
+    AsyncTask.run(mqCenter.connect)
+    # 启动grpc
+    AsyncTask.run(grpc.start_grpc, **config.grpc)
+    logger.info("启动完成。")
 
 
 if __name__ == '__main__':
-    proxy = Proxy()
-    proxy.start("/Users/pleuvoir/dev/space/git/leopard-proxy/config/config.json")
-# proxy.subscribe_market("okx", "BTC-USDT")
-    start_grpc()
+    run(os.path.join(os.getcwd(), "config/config.json"))
+    AsyncTask.run_forever()

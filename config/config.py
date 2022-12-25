@@ -4,13 +4,14 @@
 import json
 
 
-class Configure:
+class Config:
 
     def __init__(self):
         self.log = {}
         self.rabbitmq = {}
         self.accounts = []
         self.markets = {}
+        self.grpc = {}
         self.proxy = None
 
     def loads(self, config_file=None) -> None:
@@ -31,6 +32,7 @@ class Configure:
     def _update(self, update_fields) -> None:
         self.log = update_fields.get("LOG", {})
         self.rabbitmq = update_fields.get("RABBITMQ", None)
+        self.grpc = update_fields.get("GRPC", None)
         self.accounts = update_fields.get("ACCOUNTS", [])
         self.markets = update_fields.get("MARKETS", [])
         self.heartbeat = update_fields.get("HEARTBEAT", {})
@@ -40,4 +42,4 @@ class Configure:
             setattr(self, k, v)
 
 
-config = Configure()
+config = Config()

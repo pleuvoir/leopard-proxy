@@ -12,5 +12,9 @@
     "port": 5672,
     "username": "guest",
     "password": "guest"
+  },
+  "GRPC": {
+    "addr": "127.0.0.1:8000",
+    "max_workers": 10
   }
 }

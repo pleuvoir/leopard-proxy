@@ -21,6 +21,11 @@ async def do_them():
 
 这种await必须在异步函数中执行，即async的def方法
 
+await 会让出当前线程，类似于yield 而不是在这里阻塞等待，这里需要着重理解，不是异步转同步的意思。在协程中遇到耗时操作就使用 await
+
+https://www.cnblogs.com/yanzi-meng/p/8533734.html
+
+
 
 ## 引入grpc
 
@@ -31,3 +36,20 @@ import agent_pb2 as agent__pb2
 from rpc.proto import agent_pb2 as agent__pb2
 
 from 从哪个包 import 文件名称
+
+
+## 形参可以直接传入一个字典，这样会根据形参的名称自动填值
+
+```python
+# 初始化日志
+logger.initLogger(**config.log)
+# 启动grpc
+grpc.start_grpc(**config.grpc)
+```
+
+记得要带上**
+
+
+## 协程使用
+
+
