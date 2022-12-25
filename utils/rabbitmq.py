@@ -1,20 +1,12 @@
 # -*— coding:utf-8 -*-
 
-"""
-Event Center.
-
-Author: HuangTao
-Date:   2018/05/04
-Email:  huangtao@ifclover.com
-"""
 
 import asyncio
-import logging
 import sys
 
 import aioamqp
 
-from configure import config
+from config.configure import config
 from utils import logger
 
 

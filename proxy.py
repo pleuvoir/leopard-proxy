@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from typing import Type
+import asyncio
 
-from configure import config
-from market.market import MARKET_TYPE_KLINE_5M, Market
+from config.configure import config
 from utils import logger
 
 
 class Proxy:
 
     def __init__(self):
-        super()
+        new_loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(new_loop)
 
     def _init_logger(self) -> None:
         logger.initLogger(**config.log)
@@ -26,9 +26,6 @@ class Proxy:
         self._load_settings(config_file)
         self._init_logger()
         self._init_rabbitMQ()
-
-    def subscribe_market(self, exchange, symbol: str):
-        Market(MARKET_TYPE_KLINE_5M, exchange, symbol, candles)
 
 
 async def candles(t, receipt_timestamp):

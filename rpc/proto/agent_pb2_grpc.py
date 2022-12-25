@@ -5,7 +5,7 @@ import grpc
 from rpc.proto import agent_pb2 as agent__pb2
 
 
-class HelloStub(object):
+class AgentStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,43 +14,58 @@ class HelloStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SayHello = channel.unary_unary(
-                '/services.Hello/SayHello',
-                request_serializer=agent__pb2.HelloRequest.SerializeToString,
-                response_deserializer=agent__pb2.HelloReply.FromString,
+        self.Subscribe = channel.unary_unary(
+                '/services.Agent/Subscribe',
+                request_serializer=agent__pb2.SubscribeRequest.SerializeToString,
+                response_deserializer=agent__pb2.RpcResult.FromString,
+                )
+        self.UnSubscribe = channel.unary_unary(
+                '/services.Agent/UnSubscribe',
+                request_serializer=agent__pb2.UnSubscribeRequest.SerializeToString,
+                response_deserializer=agent__pb2.RpcResult.FromString,
                 )
 
 
-class HelloServicer(object):
+class AgentServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SayHello(self, request, context):
-        """定义SayHello方法
-        """
+    def Subscribe(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UnSubscribe(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_HelloServicer_to_server(servicer, server):
+def add_AgentServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SayHello': grpc.unary_unary_rpc_method_handler(
-                    servicer.SayHello,
-                    request_deserializer=agent__pb2.HelloRequest.FromString,
-                    response_serializer=agent__pb2.HelloReply.SerializeToString,
+            'Subscribe': grpc.unary_unary_rpc_method_handler(
+                    servicer.Subscribe,
+                    request_deserializer=agent__pb2.SubscribeRequest.FromString,
+                    response_serializer=agent__pb2.RpcResult.SerializeToString,
+            ),
+            'UnSubscribe': grpc.unary_unary_rpc_method_handler(
+                    servicer.UnSubscribe,
+                    request_deserializer=agent__pb2.UnSubscribeRequest.FromString,
+                    response_serializer=agent__pb2.RpcResult.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'services.Hello', rpc_method_handlers)
+            'services.Agent', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Hello(object):
+class Agent(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SayHello(request,
+    def Subscribe(request,
             target,
             options=(),
             channel_credentials=None,
@@ -60,8 +75,25 @@ class Hello(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/services.Hello/SayHello',
-            agent__pb2.HelloRequest.SerializeToString,
-            agent__pb2.HelloReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/services.Agent/Subscribe',
+            agent__pb2.SubscribeRequest.SerializeToString,
+            agent__pb2.RpcResult.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UnSubscribe(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/services.Agent/UnSubscribe',
+            agent__pb2.UnSubscribeRequest.SerializeToString,
+            agent__pb2.RpcResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

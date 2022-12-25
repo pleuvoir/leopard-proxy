@@ -35,15 +35,10 @@ RabbitMQ可以通过命令行来操作，但为了展示一个更加直观的结
 ##### 2.1 登陆管理工具
 
 假设我们安装运行RabbitMQ服务器的机器ip地址为 `11.22.33.44`，那么我们可以通过 `http://11.22.33.44:15672` 打开web管理页面。
-管理页面默认的登录账户和密码为 `guest` `guest`，如下图所示：  
-![](../images/login.png)
+管理页面默认的登录账户和密码为 `guest` `guest`：  
 
 登录成功之后，进入 `Admin` 标签页，新增、管理登录账户和密码：  
-![](../images/userpage.png)
 
 请注意，新增的账户需要设置对应的访问权限，根据需要设置权限即可，一般如果测试使用直接给根目录 `/` 的访问权限：  
-![](../images/rabbitmq_permission.png)
-
-![](../images/rabbitmq_permission2.png)
 
 恭喜你，我们的RabbitMQ服务器已经可以投入使用了！

@@ -2,16 +2,26 @@ syntax = "proto3";
 package services;
 option go_package = "./;proto";
 
+import "google/protobuf/any.proto";
 
-service Hello {
-  // 定义SayHello方法
-  rpc SayHello (HelloRequest) returns (HelloReply);
+message RpcResult{
+  bool success = 1;
+  google.protobuf.Any  data = 2;
+  string message = 3;
 }
 
-message HelloRequest {
-  string name = 1; //编号
+message SubscribeRequest {
+  string symbol = 1; //编号
+  string type = 2;//类型 kline
+  string exchange = 3;//交易所
 }
 
-message HelloReply {
-  string message = 1; //编号
+message UnSubscribeRequest {
+  string symbol = 1; //编号
 }
+
+service Agent {
+  rpc Subscribe (SubscribeRequest) returns (RpcResult);
+  rpc UnSubscribe (UnSubscribeRequest) returns (RpcResult);
+}
+
