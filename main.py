@@ -9,7 +9,7 @@ from config.config import config
 from mq.rabbitmq import mqCenter
 from rpc import grpc
 from utils import logger
-from utils.tasks import AsyncTask
+from utils.tasks import Async
 
 
 def run(config_path: str):
@@ -18,12 +18,12 @@ def run(config_path: str):
     # 初始化日志
     logger.initLogger(**config.log)
     # 连接MQ
-    AsyncTask.run(mqCenter.connect)
+    Async.run(mqCenter.connect)
     # 启动grpc
-    AsyncTask.run(grpc.start_grpc, **config.grpc)
+    Async.run(grpc.start_grpc, **config.grpc)
     logger.info("启动完成。")
 
 
 if __name__ == '__main__':
     run(os.path.join(os.getcwd(), "config/config.json"))
-    AsyncTask.run_forever()
+    Async.run_forever()
